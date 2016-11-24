@@ -1,9 +1,7 @@
-# Awesome game
+# A template for the Coding Pirates gamejam 2016!
 
-Awesome game by
+Template by:
 [ankerbachryhl](https://github.com/ankerbachryhl).
-
-Initial scaffolding generated with [generator-gamejam](https://github.com/belen-albeza/generator-gamejam/).
 
 ## Installation
 
@@ -55,9 +53,3 @@ There is a task that will automatically run Browserify when a JavaScript file ch
 ```
 gulp run
 ```
-
-
-
-
-
-
