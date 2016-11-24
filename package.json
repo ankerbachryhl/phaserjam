@@ -1,0 +1,23 @@
+{
+  "version": "0.0.0",
+  "name": "awesome-game",
+  "version": "0.0.0",
+  "author": "",
+  "license": "MIT",
+  
+  "repository": "ankerbachryhl/phaserjam",
+  "author": "ankerbachryhl",
+  
+  "dependencies": {
+    "browserify": "*",
+    "browser-sync": "*",
+    "del": "*",
+    "gulp": "*",
+    "gulp-connect": "*",
+    "gulp-util": "*",
+    "merge-stream": "*",
+    "phaser": "*",
+    "vinyl-source-stream": "*",
+    "watchify": "*"
+  }
+}
