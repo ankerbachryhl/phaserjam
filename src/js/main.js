@@ -5,6 +5,7 @@ function preload() {
     game.load.image('sky', '../images/sky.png');
     game.load.image('ground', '../images/platform.png');
     game.load.image('star', '../images/star.png');
+    game.load.image('cat_evovle2', '../images/cat_evovle2.png');
     game.load.spritesheet('dude', '../images/dude.png', 32, 48);
 
 }
@@ -129,6 +130,10 @@ function update() {
         player.body.velocity.y = -350;
     }
 
+    if (score == 30) {
+      changeCharacter()
+    }
+
 }
 
 function collectStar (player, star) {
@@ -140,4 +145,8 @@ function collectStar (player, star) {
     score += 10;
     scoreText.text = 'Score: ' + score;
 
+}
+
+function changeCharacter() {
+  player.loadTexture('cat_evovle2', 100)
 }
