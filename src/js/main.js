@@ -8,6 +8,8 @@ function preload() {
     game.load.image('cat_evovle2', '../images/cat_evovle2.png');
     game.load.spritesheet('dude', '../images/dude.png', 32, 48);
 
+    game.load.image('bird', '../images/bird.png', 30, 30);
+
 }
 
 var player;
@@ -17,6 +19,8 @@ var cursors;
 var stars;
 var score = 0;
 var scoreText;
+
+var enemy;
 
 function create() {
 
@@ -47,6 +51,13 @@ function create() {
 
     ledge = platforms.create(-150, 250, 'ground');
     ledge.body.immovable = true;
+
+    // enemy = game.add.sprite(20, 0, 'bird')
+    // game.physics.arcade.enable(enemy);
+    // enemy.enableBody = true;
+    // enemy.body.gravity.y = 300;
+
+
 
     // The player and its settings
     player = game.add.sprite(32, game.world.height - 150, 'dude');
@@ -88,6 +99,18 @@ function create() {
     //  Our controls.
     cursors = game.input.keyboard.createCursorKeys();
 
+    this.bird = game.add.sprite(100, 100, 'bird')
+    this.bird.anchor.setTo(0.5, 0.5)
+
+    this.bird.name = index.toString();
+    game.physics.enable(this.bird, Phaser.Physics.ARCADE);
+    this.bird.body.immovable = true;
+    this.bird.body.collideWorldBounds = true;
+
+    this.birdTween = game.add.tween(this.bird).to({
+      y: this.bird.y + 25;
+    }, 2000, 'Linear', true, 0, 100, true);
+
 }
 
 function update() {
@@ -95,6 +118,12 @@ function update() {
     //  Collide the player and the stars with the platforms
     game.physics.arcade.collide(player, platforms);
     game.physics.arcade.collide(stars, platforms);
+    game.physics.arcade.collide(enemy, platforms);
+
+    if (game.physics.arcade.collide(player, enemy)) {
+      score -= 10;
+      scoreText.text = 'Score: ' + score;
+    }
 
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     game.physics.arcade.overlap(player, stars, collectStar, null, this);
@@ -130,8 +159,12 @@ function update() {
         player.body.velocity.y = -350;
     }
 
-    if (score == 30) {
-      changeCharacter()
+    if (score > 30) {
+      evovle2()
+    }
+
+    if (score < 30) {
+      evovle1()
     }
 
 }
@@ -147,6 +180,10 @@ function collectStar (player, star) {
 
 }
 
-function changeCharacter() {
-  player.loadTexture('cat_evovle2', 100)
+function evovle2() {
+  player.loadTexture('cat_evovle2', 0)
+}
+
+function evovle1() {
+  player.loadTexture('dude', 0)
 }
