@@ -20,7 +20,7 @@ npm install -g gulp
 Clone this repository and install dependencies:
 
 ```
-git clone ankerbachryhl/phaserjam
+git clone https://github.com/ankerbachryhl/phaserjam.git
 cd phaserjam
 npm install
 ```
