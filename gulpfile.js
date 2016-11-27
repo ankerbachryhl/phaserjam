@@ -19,7 +19,7 @@ var merge = require('merge-stream');
 //
 
 var bundler = browserify([
-  './src/js/main.js'
+  './src/js/level_two.js'
 ]);
 
 var bundle = function ()  {
