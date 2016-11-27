@@ -10,6 +10,7 @@ var stars;
 var score = 0;
 var scoreText;
 
+var draabe;
 var draaber;
 var dogs;
 
@@ -195,6 +196,27 @@ var level_one = {
     bar.fixedToCamera = true;
     bar.scale.setTo(5.0)
 
+    setInterval(function() {
+      for (var i = 0; i < 150; i++) {
+          var number = Math.floor(Math.random() * (2000 - 50 + 1)) + 50;;
+
+          var draabe = draaber.create(i * number, 0, 'bird');
+
+          draabe.body.gravity.y = 100;
+
+          if (draabe.position.x < 25) {
+            draabe.kill()
+          }
+          draabe.checkWorldBounds = true;
+          draabe.events.onOutOfBounds.add(boundsKill, this)
+          if (draabe.outOfBoundsKill) {
+            draabe.kill()
+
+          }
+
+        }
+    }, 6000);
+
   },
 
    update: function() {
@@ -303,7 +325,6 @@ function collectStar(player, star) {
     star.kill();
     //  Add and update the score
     score += 10;
-    scoreText.text = 'Food: ' + score;
 }
 
 // function checkDogOverlap(spriteA, spriteB) {
@@ -322,7 +343,6 @@ function minusScore(player, dog) {
   dog.kill();
 
   score -= 10;
-  scoreText.text = 'Food: ' + score;
 }
 
 function nextLevel() {
@@ -333,7 +353,6 @@ function nextLevel() {
 
 function birdCollide() {
   score = 0;
-  scoreText.text = 'Food: ' + score;
   resetPlayer()
 }
 
@@ -355,16 +374,7 @@ function shootCollide(weapon, dog) {
   dog.kill()
 }
 
-setInterval(function() {
-  for (var i = 0; i < 150; i++) {
-      var number = Math.floor(Math.random() * (2000 - 50 + 1)) + 50;;
-
-      var bird = draaber.create(i * number, 0, 'bird');
-
-      bird.body.gravity.y = 100;
-
-      if (bird.position.x < 25) {
-        bird.kill()
-      }
-    }
-}, 6000);
+function boundsKill(draabe) {
+  draabe.kill()
+  console.log("killed drop")
+}

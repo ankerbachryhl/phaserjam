@@ -196,6 +196,31 @@ var level_two = {
     weapons.setAll('outOfBoundsKill', true)
     weapons.setAll('checkWorldBounds', true)
 
+    setInterval(function() {
+      for (var i = 0; i < 150; i++) {
+          var number = Math.floor(Math.random() * (2000 - 50 + 1)) + 50;;
+
+          var draabe = draaber.create(i * number, 0, 'bird');
+
+          draabe.body.gravity.y = 100;
+
+          if (draabe.position.x < 25) {
+            draabe.kill()
+          }
+          draabe.checkWorldBounds = true;
+          draabe.events.onOutOfBounds.add(boundsKill, this)
+          if (draabe.outOfBoundsKill) {
+            draabe.kill()
+
+          }
+
+        }
+    }, 6000);
+
+    bar = game.add.sprite(400, 50, 'bar-0');
+    bar.fixedToCamera = true;
+    bar.scale.setTo(5.0)
+
 
 
   },
@@ -203,6 +228,56 @@ var level_two = {
    update: function() {
 
     //Score
+    if (score < 1) {
+      bar = game.add.sprite(400, 50, 'bar-0');
+      bar.fixedToCamera = true;
+      bar.scale.setTo(5.0)
+    }
+
+    if (score == 10) {
+      bar = game.add.sprite(400, 50, 'bar-1');
+      bar.fixedToCamera = true;
+      bar.scale.setTo(5.0)
+    } else if (score == 20) {
+      bar = game.add.sprite(400, 50, 'bar-2');
+      bar.fixedToCamera = true;
+      bar.scale.setTo(5.0)
+    } else if (score == 30) {
+
+      bar = game.add.sprite(400, 50, 'bar-3');
+      bar.fixedToCamera = true;
+      bar.scale.setTo(5.0)
+    } else if (score == 40) {
+      bar = game.add.sprite(400, 50, 'bar-4');
+      bar.fixedToCamera = true;
+      bar.scale.setTo(5.0)
+    } else if (score == 50) {
+      bar = game.add.sprite(400, 50, 'bar-5');
+      bar.fixedToCamera = true;
+      bar.scale.setTo(5.0)
+    } else if (score == 60) {
+      bar = game.add.sprite(400, 50, 'bar-6');
+      bar.fixedToCamera = true;
+      bar.scale.setTo(5.0)
+    } else if (score == 70) {
+      bar = game.add.sprite(400, 50, 'bar-7');
+      bar.fixedToCamera = true;
+      bar.scale.setTo(5.0)
+    } else if (score == 80) {
+      bar = game.add.sprite(400, 50, 'bar-8');
+      bar.fixedToCamera = true;
+      bar.scale.setTo(5.0)
+    } else if (score == 90) {
+      bar = game.add.sprite(400, 50, 'bar-9');
+      bar.fixedToCamera = true;
+      bar.scale.setTo(5.0)
+    } else if (score == 100) {
+      bar = game.add.sprite(400, 50, 'bar-10');
+      bar.fixedToCamera = true;
+      bar.scale.setTo(5.0)
+      evovle = true;
+    }
+
 
 
     //Laver tilemaps collisions
@@ -272,7 +347,6 @@ function collectStar(player, star) {
     star.kill();
     //  Add and update the score
     score += 10;
-    scoreText.text = 'Food: ' + score;
 }
 
 // function checkDogOverlap(spriteA, spriteB) {
@@ -291,7 +365,6 @@ function minusScore(player, dog) {
   dog.kill();
 
   score -= 10;
-  scoreText.text = 'Food: ' + score;
 }
 
 function nextLevel() {
@@ -302,7 +375,6 @@ function nextLevel() {
 
 function birdCollide() {
   score = 0;
-  scoreText.text = 'Food: ' + score;
   resetPlayer()
 }
 
@@ -332,16 +404,7 @@ function shootCollide(weapon, dog) {
   dog.kill()
 }
 
-setInterval(function() {
-  for (var i = 0; i < 150; i++) {
-      var number = Math.floor(Math.random() * (2000 - 50 + 1)) + 50;;
-
-      var bird = draaber.create(i * number, 0, 'bird');
-
-      bird.body.gravity.y = 100;
-
-      if (bird.position.x < 25) {
-        bird.kill()
-      }
-    }
-}, 6000);
+function boundsKill(draabe) {
+  draabe.kill()
+  console.log("killed drop")
+}
