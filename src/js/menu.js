@@ -8,10 +8,10 @@ var menu = {
     labelText1 = game.add.text(16, 100, 'Press 1 to enter level 1!', { fontSize: '32px', fill: '#fff' });
     labelText1.fixedToCamera = true;
 
-    labelText2 = game.add.text(16, 100, 'Press 2 to enter level 2!', { fontSize: '32px', fill: '#fff' });
+    labelText2 = game.add.text(16, 200, 'Press 2 to enter level 2!', { fontSize: '32px', fill: '#fff' });
     labelText2.fixedToCamera = true;
 
-    labelText3 = game.add.text(16, 100, 'Press 3 to enter level 3!', { fontSize: '32px', fill: '#fff' });
+    labelText3 = game.add.text(16, 300, 'Press 3 to enter level 3!', { fontSize: '32px', fill: '#fff' });
     labelText3.fixedToCamera = true;
 
     var space_key = game.input.keyboard.addKey(Phaser.Keyboard.ONE)

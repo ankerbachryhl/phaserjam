@@ -115,7 +115,7 @@ var level_one = {
 
     stars.enableBody = true;
 
-    for (var i = 0; i < 300; i++) {
+    for (var i = 0; i < 600; i++) {
         var number = Math.random() * (200 - 100) + 100;
         var star = stars.create(i * number, 0, 'cake');
 
