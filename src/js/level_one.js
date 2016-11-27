@@ -42,6 +42,7 @@ var level_one = {
 
       //Mad
       game.load.image('cake', '../images/cake-UPSCALED.png', 40, 25);
+      game.load.image('food', '../images/food-bowl-UPSCALED.png', 50, 50);
 
       //Fugl
       game.load.image('bird', '../images/vandråbe.png', 50, 50);
@@ -114,8 +115,8 @@ var level_one = {
 
     stars.enableBody = true;
 
-    for (var i = 0; i < 50; i++) {
-        var number = Math.random() * (500 - 100) + 100;
+    for (var i = 0; i < 300; i++) {
+        var number = Math.random() * (200 - 100) + 100;
         var star = stars.create(i * number, 0, 'cake');
 
         star.scale.setTo(1.5)
@@ -221,55 +222,70 @@ var level_one = {
 
    update: function() {
 
-    //Draaber
+
+    if (bar_state == 10) {
+      game.state.add('won', won)
+      game.state.start('won')
+    }
 
     if (score < 1) {
       bar = game.add.sprite(400, 50, 'bar-0');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 0;
     }
 
     if (score == 10) {
       bar = game.add.sprite(400, 50, 'bar-1');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 1;
     } else if (score == 20) {
       bar = game.add.sprite(400, 50, 'bar-2');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 2;
     } else if (score == 30) {
 
       bar = game.add.sprite(400, 50, 'bar-3');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 3;
     } else if (score == 40) {
       bar = game.add.sprite(400, 50, 'bar-4');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 4;
     } else if (score == 50) {
       bar = game.add.sprite(400, 50, 'bar-5');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 5;
     } else if (score == 60) {
       bar = game.add.sprite(400, 50, 'bar-6');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 6;
     } else if (score == 70) {
       bar = game.add.sprite(400, 50, 'bar-7');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 7;
     } else if (score == 80) {
       bar = game.add.sprite(400, 50, 'bar-8');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 8;
     } else if (score == 90) {
       bar = game.add.sprite(400, 50, 'bar-9');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 9;
     } else if (score == 100) {
       bar = game.add.sprite(400, 50, 'bar-10');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 10;
       evovle = true;
     }
 

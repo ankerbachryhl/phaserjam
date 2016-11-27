@@ -232,55 +232,72 @@ var third_level = {
 
     //Score
 
+    if (bar_state == 10) {
+      game.state.add('won', won)
+      game.state.start('won')
+    }
+
     if (score < 1) {
       bar = game.add.sprite(400, 50, 'bar-0');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 0;
     }
 
     if (score == 10) {
       bar = game.add.sprite(400, 50, 'bar-1');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 1;
     } else if (score == 20) {
       bar = game.add.sprite(400, 50, 'bar-2');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 2;
     } else if (score == 30) {
 
       bar = game.add.sprite(400, 50, 'bar-3');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 3;
     } else if (score == 40) {
       bar = game.add.sprite(400, 50, 'bar-4');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 4;
     } else if (score == 50) {
       bar = game.add.sprite(400, 50, 'bar-5');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 5;
     } else if (score == 60) {
       bar = game.add.sprite(400, 50, 'bar-6');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 6;
     } else if (score == 70) {
       bar = game.add.sprite(400, 50, 'bar-7');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 7;
     } else if (score == 80) {
       bar = game.add.sprite(400, 50, 'bar-8');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 8;
     } else if (score == 90) {
       bar = game.add.sprite(400, 50, 'bar-9');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 9;
     } else if (score == 100) {
       bar = game.add.sprite(400, 50, 'bar-10');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 10;
       evovle = true;
     }
+
 
 
 

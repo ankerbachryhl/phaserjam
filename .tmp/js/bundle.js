@@ -23,6 +23,8 @@ var shootRight1;
 
 var left;
 
+var nextLevel1;
+
 
 var level_two = {
   preload: function () {
@@ -62,6 +64,10 @@ var level_two = {
       game.load.image('bar-8', '../images/foodbar-stage8_10.png');
       game.load.image('bar-9', '../images/foodbar-stage9_10.png');
       game.load.image('bar-10', '../images/foodbar-stage10_10.png');
+
+      //Door
+
+      game.load.image('dark_door', '../images/lvl2-door-UPSCALED.png')
   },
 
 
@@ -129,8 +135,6 @@ var level_two = {
     shootRight1 = game.input.keyboard.addKey(Phaser.Keyboard.C)
 
 
-    scoreText = game.add.text(16, 16, 'Food: 0', { fontSize: '32px', fill: '#fff' });
-    scoreText.fixedToCamera = true;
 
     //Fugl
     birds = game.add.group();
@@ -180,9 +184,9 @@ var level_two = {
     dogs.collideWorldBounds = true;
 
     //Dør
-    door = game.add.sprite(3120, 719, 'door');
+    door1 = game.add.sprite(3120, 719, 'dark_door');
 
-    game.physics.enable(door, Phaser.Physics.ARCADE)
+    game.physics.enable(door1, Phaser.Physics.ARCADE)
 
     //kastetjerne
     weapons = game.add.group()
@@ -228,54 +232,70 @@ var level_two = {
 
    update: function() {
 
+     if (bar_state == 10) {
+       game.state.add('won', won)
+       game.state.start('won')
+     }
+
     //Score
     if (score < 1) {
       bar = game.add.sprite(400, 50, 'bar-0');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 0;
     }
 
     if (score == 10) {
       bar = game.add.sprite(400, 50, 'bar-1');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 1;
     } else if (score == 20) {
       bar = game.add.sprite(400, 50, 'bar-2');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 2;
     } else if (score == 30) {
 
       bar = game.add.sprite(400, 50, 'bar-3');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 3;
     } else if (score == 40) {
       bar = game.add.sprite(400, 50, 'bar-4');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 4;
     } else if (score == 50) {
       bar = game.add.sprite(400, 50, 'bar-5');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 5;
     } else if (score == 60) {
       bar = game.add.sprite(400, 50, 'bar-6');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 6;
     } else if (score == 70) {
       bar = game.add.sprite(400, 50, 'bar-7');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 7;
     } else if (score == 80) {
       bar = game.add.sprite(400, 50, 'bar-8');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 8;
     } else if (score == 90) {
       bar = game.add.sprite(400, 50, 'bar-9');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 9;
     } else if (score == 100) {
       bar = game.add.sprite(400, 50, 'bar-10');
       bar.fixedToCamera = true;
       bar.scale.setTo(5.0)
+      bar_state = 10;
       evovle = true;
     }
 
@@ -289,7 +309,7 @@ var level_two = {
     game.physics.arcade.overlap(player, stars, collectStar, null, this);
     game.physics.arcade.overlap(player, dogs, minusScore, null, this);
 
-    game.physics.arcade.overlap(player, door, nextLevel, null, this);
+    game.physics.arcade.overlap(player, door1, nextLevel1, null, this);
     game.physics.arcade.overlap(player, draaber, birdCollide, null, this);
 
     game.physics.arcade.overlap(weapons, dogs, shootCollide, null, this);
@@ -368,10 +388,10 @@ function minusScore(player, dog) {
   score -= 10;
 }
 
-function nextLevel() {
-  nextLevel = true;
-  game.state.add('level2', level_two)
-  game.state.start('level2')
+function nextLevel1() {
+  nextLevel1 = true;
+  game.state.add('level3', third_level)
+  game.state.start('level3')
 }
 
 function birdCollide() {
