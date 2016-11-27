@@ -1,0 +1,370 @@
+var map;
+var groundlayer;
+var backgroundlayer;
+var player;
+var cursors;
+var jumpCount;
+var jumpkey;
+var stars;
+
+var score = 0;
+var scoreText;
+
+var draaber;
+var dogs;
+
+var nextLevel;
+
+var shootTime = 0;
+var weapon;
+
+var shoot;
+
+var leftDown = false;
+var rightDown = false;
+
+var bar;
+var evovle;
+
+var level_one = {
+  preload: function () {
+
+      //Loader assets
+
+      game.load.tilemap('mario', '../levels/level final.json', null, Phaser.Tilemap.TILED_JSON)
+      game.load.image('tiles', '../images/tilesheet.png')
+      game.load.image('tiles2', '../images/prison.png')
+
+      //Katte
+
+      game.load.spritesheet('cat', '../images/new_walkingAnimation_final.png', 65, 47);
+
+      //Mad
+      game.load.image('cake', '../images/cake-UPSCALED.png', 40, 25);
+
+      //Fugl
+      game.load.image('bird', '../images/vandråbe.png', 50, 50);
+
+      //Hund
+      game.load.image('dog', '../images/ny_hund.png', 20, 20);
+
+      //Port
+      game.load.image('door', '../images/lvl1-door-UPSCALED.png', 50, 50);
+
+      //Våben
+      game.load.image('weapon', '../images/dank-star-UPSCALED.png', 20, 20);
+
+      //Bar
+      game.load.image('bar-0', '../images/foodbar-stage0_10.png');
+      game.load.image('bar-1', '../images/foodbar-stage1_10.png');
+      game.load.image('bar-2', '../images/foodbar-stage2_10.png');
+      game.load.image('bar-3', '../images/foodbar-stage3_10.png');
+      game.load.image('bar-4', '../images/foodbar-stage4_10.png');
+      game.load.image('bar-5', '../images/foodbar-stage5_10.png');
+      game.load.image('bar-6', '../images/foodbar-stage6_10.png');
+      game.load.image('bar-7', '../images/foodbar-stage7_10.png');
+      game.load.image('bar-8', '../images/foodbar-stage8_10.png');
+      game.load.image('bar-9', '../images/foodbar-stage9_10.png');
+      game.load.image('bar-10', '../images/foodbar-stage10_10.png');
+
+
+  },
+
+
+
+
+  create: function() {
+
+    game.stage.backgroundColor = '#63cbf9';
+
+    // Laver tilemap
+    map = game.add.tilemap('mario');
+    map.addTilesetImage('tiles128', 'tiles');
+    map.addTilesetImage('tet', 'tiles2');
+    backgroundlayer = map.createLayer('Background');
+    groundlayer = map.createLayer('Tile Layer 2');
+
+    groundlayer.resizeWorld();
+    map.setCollisionBetween(0, 100000, true, 'Tile Layer 2');
+
+
+    //Spiller
+
+    player = game.add.sprite(50, game.world.centerY, 'cat');
+    game.physics.arcade.enable(player);
+
+    //Physics på spiller
+    player.body.bounce.y = 0.2;
+    player.body.gravity.y = 800;
+    player.body.velocity.x = 50;
+    player.body.collideWorldBounds = true;
+
+    //Spiller animations
+    player.animations.add('right', [1, 3, 5, 7], 10, true)
+    player.animations.add('left', [2, 4, 6, 8], 10, true)
+
+    //Lad kameraet følge dem
+    game.camera.follow(player);
+
+    //Kage og mad
+
+    stars = game.add.group();
+    game.physics.arcade.enable(stars);
+
+    stars.enableBody = true;
+
+    for (var i = 0; i < 50; i++) {
+        var number = Math.random() * (500 - 100) + 100;
+        var star = stars.create(i * number, 0, 'cake');
+
+        star.scale.setTo(1.5)
+
+        if (star.position.x < 25) {
+          star.kill()
+        }
+        star.body.gravity.y = 200;
+
+        star.body.bounce.y = 0.1;
+    }
+
+
+    //Lav cursors der laver controls
+    cursors = game.input.keyboard.createCursorKeys();
+    shoot = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
+
+    scoreText = game.add.text(16, 16, 'Food: 0', { fontSize: '32px', fill: '#fff' });
+    scoreText.fixedToCamera = true;
+
+    //Fugl
+    draaber = game.add.group();
+
+    game.physics.enable(draaber, Phaser.Physics.ARCADE);
+
+    //Laver fugle
+
+    draaber = game.add.group();
+    draaber.enableBody = true;
+
+    //Laver hunden
+    dogs = game.add.group();
+    dogs.enableBody = true;
+
+    // Spawner hunde
+    for (var i = 0; i < 50; i++) {
+        var number = Math.random() * (500 - 100) + 100;
+        //  Create a star inside of the 'stars' group
+        var dog = dogs.create(i * number, 0, 'dog');
+
+        //  Let gravity do its thing
+        dog.body.gravity.y = 200;
+
+        dog.scale.setTo(0.9);
+
+        dogTween = game.add.tween(dog).to({
+          x: dog.x + 100
+        }, 2000, 'Linear', true, 0, 150, true);
+      }
+
+
+
+    game.physics.enable(dogs, Phaser.Physics.ARCADE);
+    dogs.immovable = true;
+    dogs.collideWorldBounds = true;
+
+
+    door = game.add.sprite(3120, 719, 'door');
+
+    game.physics.enable(door, Phaser.Physics.ARCADE)
+
+    //kastetjerne
+    weapons = game.add.group()
+    weapons.enableBody = true;
+
+    weapons.physicsBodyType = Phaser.Physics.ARCADE;
+    weapons.createMultiple(5, 'weapon')
+
+    weapons.setAll('anchor.x', 0.5)
+    weapons.setAll('anchor.y', 0.5)
+
+    weapons.setAll('outOfBoundsKill', true)
+    weapons.setAll('checkWorldBounds', true)
+
+    //Progress bar
+
+    bar = game.add.sprite(400, 50, 'bar-0');
+    bar.fixedToCamera = true;
+    bar.scale.setTo(5.0)
+
+  },
+
+   update: function() {
+
+    //Draaber
+
+    if (score < 1) {
+      bar = game.add.sprite(400, 50, 'bar-0');
+      bar.fixedToCamera = true;
+      bar.scale.setTo(5.0)
+    }
+
+    if (score == 10) {
+      bar = game.add.sprite(400, 50, 'bar-1');
+      bar.fixedToCamera = true;
+      bar.scale.setTo(5.0)
+    } else if (score == 20) {
+      bar = game.add.sprite(400, 50, 'bar-2');
+      bar.fixedToCamera = true;
+      bar.scale.setTo(5.0)
+    } else if (score == 30) {
+
+      bar = game.add.sprite(400, 50, 'bar-3');
+      bar.fixedToCamera = true;
+      bar.scale.setTo(5.0)
+    } else if (score == 40) {
+      bar = game.add.sprite(400, 50, 'bar-4');
+      bar.fixedToCamera = true;
+      bar.scale.setTo(5.0)
+    } else if (score == 50) {
+      bar = game.add.sprite(400, 50, 'bar-5');
+      bar.fixedToCamera = true;
+      bar.scale.setTo(5.0)
+    } else if (score == 60) {
+      bar = game.add.sprite(400, 50, 'bar-6');
+      bar.fixedToCamera = true;
+      bar.scale.setTo(5.0)
+    } else if (score == 70) {
+      bar = game.add.sprite(400, 50, 'bar-7');
+      bar.fixedToCamera = true;
+      bar.scale.setTo(5.0)
+    } else if (score == 80) {
+      bar = game.add.sprite(400, 50, 'bar-8');
+      bar.fixedToCamera = true;
+      bar.scale.setTo(5.0)
+    } else if (score == 90) {
+      bar = game.add.sprite(400, 50, 'bar-9');
+      bar.fixedToCamera = true;
+      bar.scale.setTo(5.0)
+    } else if (score == 100) {
+      bar = game.add.sprite(400, 50, 'bar-10');
+      bar.fixedToCamera = true;
+      bar.scale.setTo(5.0)
+      evovle = true;
+    }
+
+
+    //Laver tilemaps collisions
+    game.physics.arcade.collide(player, groundlayer);
+    game.physics.arcade.collide(stars, groundlayer);
+    game.physics.arcade.collide(dogs, groundlayer);
+
+    game.physics.arcade.overlap(player, stars, collectStar, null, this);
+    game.physics.arcade.overlap(player, dogs, minusScore, null, this);
+
+    game.physics.arcade.overlap(player, door, nextLevel, null, this);
+    game.physics.arcade.overlap(player, draaber, birdCollide, null, this);
+
+    game.physics.arcade.overlap(weapons, dogs, shootCollide, null, this);
+
+    //Laver controls
+
+    player.body.velocity.x = 0;
+
+    if (cursors.left.isDown) {
+        // Gå til venstre
+        player.body.velocity.x = -150;
+
+        player.animations.play('right')
+
+    }
+    else if (cursors.right.isDown) {
+        // Gå til højre
+        player.body.velocity.x = 150;
+
+        player.animations.play('left')
+    }
+    else {
+        //Stå stille
+        player.animations.stop();
+
+
+    }
+
+    // Forhindre double jumps
+    if (cursors.up.isDown && player.body.onFloor()) {
+            player.body.velocity.y = -500;
+    }
+
+  }
+
+}
+
+function collectStar(player, star) {
+    // Removes the star from the screen
+    star.kill();
+    //  Add and update the score
+    score += 10;
+    scoreText.text = 'Food: ' + score;
+}
+
+// function checkDogOverlap(spriteA, spriteB) {
+//   var boundsA = spriteA.getBounds();
+//   var boundsB = spriteB.getBounds();
+//
+//   return Phaser.Rectangle.intersects(boundsA, boundsB)
+//
+// }
+
+function resetPlayer() {
+  player.reset(30, 450)
+}
+
+function minusScore(player, dog) {
+  dog.kill();
+
+  score -= 10;
+  scoreText.text = 'Food: ' + score;
+}
+
+function nextLevel() {
+  nextLevel = true;
+  game.state.add('level2', level_two)
+  game.state.start('level2')
+}
+
+function birdCollide() {
+  score = 0;
+  scoreText.text = 'Food: ' + score;
+  resetPlayer()
+}
+
+function shootRight(weapon1) {
+
+  var weapon1 = weapons.create(player.position.x, player.position.y, 'weapon')
+  weapon1.body.velocity.x = 200;
+
+}
+
+function shootLeft(weapon1) {
+
+  var weapon1 = weapons.create(player.position.x, player.position.y, 'weapon')
+  weapon1.body.velocity.x = -150;
+
+}
+
+function shootCollide(weapon, dog) {
+  dog.kill()
+}
+
+setInterval(function() {
+  for (var i = 0; i < 150; i++) {
+      var number = Math.floor(Math.random() * (2000 - 50 + 1)) + 50;;
+
+      var bird = draaber.create(i * number, 0, 'bird');
+
+      bird.body.gravity.y = 100;
+
+      if (bird.position.x < 25) {
+        bird.kill()
+      }
+    }
+}, 6000);
