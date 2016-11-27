@@ -28,9 +28,10 @@ var level_two = {
 
       //Loader assets
 
-      game.load.tilemap('mario', '../levels/leveldims.json', null, Phaser.Tilemap.TILED_JSON)
-      game.load.image('tiles21', '../images/durt.png')
-      game.load.image('tiles22', '../images/twee.png')
+      game.load.tilemap('mario', '../levels/felixerdum.json', null, Phaser.Tilemap.TILED_JSON)
+      game.load.image('tiles', '../images/skraber.png')
+      game.load.image('tiles1', '../images/dip.png')
+      game.load.image('tiles2', '../images/edut.png')
 
       //Katte
 
@@ -74,7 +75,7 @@ var level_two = {
 
     // Laver tilemap
     map = game.add.tilemap('mario');
-    map.addTilesetImage('taskerneslort', 'tiles21');
+    map.addTilesetImage('taskerneslort', 'tiles');
     map.addTilesetImage('tiles12821', 'tiles22');
 
     backgroundlayer = map.createLayer('background');
