@@ -2,7 +2,7 @@
 
 A game made to the Coding Pirates gamejam 2016!
 
-It was made by:
+### Made By:
 
 Anker, Felix, Tobias, Christian og Benjamin!
 
